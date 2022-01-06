@@ -25,7 +25,7 @@ nmap <Leader>di <Plug>VimspectorBalloonEval
 nmap <Leader>dx <Plug>VimspectorEval
 nmap <Leader>dw <Plug>VimspectorWatch
 nmap <Leader>do <Plug>VimspectorShowOutput
-nmap <Leader>dr <Plug>VimspectorRestart
+" nmap <Leader>dr <Plug>VimspectorRestart
 
 " lsp keymappings
 " vim.api.nvim_buf_set_keymap(0, 'n', '<silent>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true}) 
@@ -34,13 +34,15 @@ nmap <Leader>dr <Plug>VimspectorRestart
 " vim.api.nvim_buf_set_keymap(0, 'n', '<C-p>', '<cmd>lua vim.lsp.buf.goto_next()<CR>', {noremap = true})
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap gs <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <C-k> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <C-j> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
+source ~/.vimrc
+
 " undotree
 nnoremap <Leader>u :UndotreeToggle<CR>
-
-source ~/.vimrc
 
 " lsp config, trying vue first 
 lua << EOF
@@ -60,10 +62,10 @@ local custom_lsp_attach = function(client)
   -- See `:help nvim_buf_set_keymap()` for more information
   -- vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true}) 
   -- vim.api.nvim_buf_set_keymap(0, 'n', '<space>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true})
-  vim.api.nvim_buf_set_keymap(0, 'n', '<space>gr', '<cmd>lua vim.lsp.buf.references()<CR>', {noremap = true})
-  vim.api.nvim_buf_set_keymap(0, 'n', '<space>gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap = true})
-  vim.api.nvim_buf_set_keymap(0, 'n', '<C-n>', '<cmd>lua vim.lsp.buf.goto_prev()<CR>', {noremap = true})
-  vim.api.nvim_buf_set_keymap(0, 'n', '<C-p>', '<cmd>lua vim.lsp.buf.goto_next()<CR>', {noremap = true})
+  -- vim.api.nvim_buf_set_keymap(0, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', {noremap = true})
+  -- vim.api.nvim_buf_set_keymap(0, 'n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap = true})
+  -- vim.api.nvim_buf_set_keymap(0, 'n', '<C-n>', '<cmd>lua vim.lsp.buf.goto_prev()<CR>', {noremap = true})
+  -- vim.api.nvim_buf_set_keymap(0, 'n', '<C-p>', '<cmd>lua vim.lsp.buf.goto_next()<CR>', {noremap = true})
   -- ... and other keymappings for LSP
 
   -- Use LSP as the handler for omnifunc.
