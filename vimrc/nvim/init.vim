@@ -1,3 +1,5 @@
+set inccommand=nosplit
+
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=$runtimepath
 
@@ -5,44 +7,13 @@ let g:LanguageClient_serverCommands = {
       \ 'vue': ['vls']
       \ }
 
-" vimspector setup
-let g:vimspector_enable_mappings = 'HUMAN'
-" packadd! vimspector
-
-nnoremap <Leader>dd :call vimspector#Launch()<CR>
-nnoremap <Leader>de :call vimspector#Reset()<CR>
-nnoremap <Leader>dc :call vimspector#Continue()<CR>
-
-nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
-nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
-
-nmap <Leader>dk <Plug>VimspectorRestart
-nmap <Leader>dh <Plug>VimspectorStepOut
-nmap <Leader>dl <Plug>VimspectorStepInto
-nmap <Leader>dj <Plug>VimspectorStepOver
-
-nmap <Leader>di <Plug>VimspectorBalloonEval
-nmap <Leader>dx <Plug>VimspectorEval
-nmap <Leader>dw <Plug>VimspectorWatch
-nmap <Leader>do <Plug>VimspectorShowOutput
-" nmap <Leader>dr <Plug>VimspectorRestart
-
 " lsp keymappings
 " vim.api.nvim_buf_set_keymap(0, 'n', '<silent>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true}) 
 " vim.api.nvim_buf_set_keymap(0, 'n', '<space>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true})
 " vim.api.nvim_buf_set_keymap(0, 'n', '<C-n>', '<cmd>lua vim.lsp.buf.goto_prev()<CR>', {noremap = true})
 " vim.api.nvim_buf_set_keymap(0, 'n', '<C-p>', '<cmd>lua vim.lsp.buf.goto_next()<CR>', {noremap = true})
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap gs <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <C-k> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <C-j> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 source ~/.vimrc
-
-" undotree
-nnoremap <Leader>u :UndotreeToggle<CR>
 
 " lsp config, trying vue first 
 lua << EOF

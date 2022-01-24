@@ -1,4 +1,5 @@
 " start to my sets
+set belloff=all
 set shiftwidth=2
 set relativenumber
 set numberwidth=5
@@ -16,7 +17,6 @@ set signcolumn=yes
 set guifont=Monaco:h10
 set nowrap
 set nohlsearch
-set inccommand=nosplit
 set hidden
 set wildignore=*/node_modules/*
 
@@ -54,13 +54,52 @@ nnoremap <leader>m :MaximizerToggle!<CR>
 nnoremap <leader>am :term<CR>
 nnoremap <leader>ev :e ~/.vimrc<CR>
 nnoremap <leader>iv :e ~/.config/nvim/init.vim<CR>
-nnoremap <leader>sv :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>ne :NERDTreeToggle <CR>
 " I want to use the same keybinding to close the terminal, need fn for that?
 nnoremap <leader>7 <C-^><CR>
 nnoremap <Space> <nop>
 nnoremap <leader><ENTER> i <Esc>r<ENTER>k<CR>
 
+if has('nvim')
+  nnoremap <leader>sv :so ~/.config/nvim/init.vim<CR>
+else
+  nnoremap <leader>sv :so ~/.vimrc<CR>
+endif
+
+" vimspector setup
+let g:vimspector_enable_mappings = 'HUMAN'
+" packadd! vimspector
+
+nnoremap <Leader>dd :call vimspector#Launch()<CR>
+nnoremap <Leader>de :call vimspector#Reset()<CR>
+nnoremap <Leader>dc :call vimspector#Continue()<CR>
+
+nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
+
+nmap <Leader>dk <Plug>VimspectorRestart
+nmap <Leader>dh <Plug>VimspectorStepOut
+nmap <Leader>dl <Plug>VimspectorStepInto
+nmap <Leader>dj <Plug>VimspectorStepOver
+
+nmap <Leader>di <Plug>VimspectorBalloonEval
+nmap <Leader>dx <Plug>VimspectorEval
+nmap <Leader>dw <Plug>VimspectorWatch
+nmap <Leader>do <Plug>VimspectorShowOutput
+" nmap <Leader>dr <Plug>VimspectorRestart
+
+" current lsp setup, in VimL
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap gs <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <C-k> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <C-j> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+
+" undotree
+nnoremap <Leader>u :UndotreeToggle<CR>
+
+"
 " Fugitive
 " merge-conflict remaps
 " go into merge-conflict window with dv
@@ -104,12 +143,19 @@ map <leader>o <Esc><Esc>:Files!<CR>
 " nnoremap <leader>gc :GCheckout<CR>
 " are we switching to this:
 
+" helping nvim install automatically
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+
 " plugin setup
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" if empty(glob(data_dir . '/autoload/plug.vim'))
+  " silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs https://raw.gihubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs 
+        \ https://raw.gihubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+" \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 " plugin section for now
 call plug#begin('~/.vim/plugged')
@@ -125,17 +171,20 @@ Plug 'puremourning/vimspector'
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
 
-" For vsnip users.
-" I'm not sure what vsnip is except that it provides code snippets
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
+if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+
+  " For vsnip users.
+  " I'm not sure what vsnip is except that it provides code snippets
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
+endif
 
 " vue support
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -143,7 +192,7 @@ Plug 'hrsh7th/vim-vsnip'
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 call plug#end()
 
 " fzf settings still understanding
