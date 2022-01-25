@@ -118,7 +118,7 @@ vnoremap <leader>kj <Esc><CR>
 " terminal-mode remaps, local is <C-W>N or <C-\><C-n>, using first here
 " just puts you into mode where vim commands recognized, still need :q!
 tnoremap <leader>kj <C-W>N
-tnoremap <leader>am <C-W>N:q!<Enter>
+tnoremap <leader>am <C-\><C-n>:q!<Enter>
 
 " for YCM Completer
 " nnoremap <silent> <Leader>gd :YcmCompleter GoTo<CR>
