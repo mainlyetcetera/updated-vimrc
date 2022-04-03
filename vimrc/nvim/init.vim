@@ -3,10 +3,6 @@ set inccommand=nosplit
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=$runtimepath
 
-let g:LanguageClient_serverCommands = {
-      \ 'vue': ['vls']
-      \ }
-
 " lsp keymappings
 " vim.api.nvim_buf_set_keymap(0, 'n', '<silent>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true}) 
 " vim.api.nvim_buf_set_keymap(0, 'n', '<space>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true})
@@ -15,10 +11,14 @@ let g:LanguageClient_serverCommands = {
 
 source ~/.vimrc
 
+" let g:LanguageClient_serverCommands = {
+      " \ 'vue': ['vls']
+      " \ }
+
 " lsp config, trying vue first 
 lua << EOF
 -- vue
-require('lspconfig').vuels.setup {}
+-- require'lspconfig'.vuels.setup {}
 
 -- ts
 require('lspconfig').tsserver.setup {}
@@ -116,9 +116,9 @@ local cmp = require'cmp'
   require('lspconfig')['tsserver'].setup {
     capabilities = capabilities
   }
-  require('lspconfig')['vuels'].setup {
-    capabilities = capabilities
-  }
+  -- require('lspconfig')['vuels'].setup {
+    -- capabilities = capabilities
+  -- }
   require('lspconfig')['pyright'].setup {
     capabilities = capabilities
   }

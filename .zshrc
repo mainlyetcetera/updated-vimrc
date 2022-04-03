@@ -6,8 +6,8 @@ export PATH=/Users/eclipse_sd/Library/Python/3.8/bin:$PATH
 alias python="python3"
 
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion#
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -139,8 +139,12 @@ bindkey -M viins ' kj' vi-cmd-mode
 bindkey -M viins ' jk' vi-cmd-mode
 
 # aliases...again
-alias vim="nvim"
+# alias vim="nvim"
 alias blurgs="jobs"
+alias lg="lazygit"
+alias cn="~/my_scripts/connect.sh"
+alias cdb="~/my_scripts/db_connect.sh"
+alias ta="~/tmux_scripts/t_admin.sh"
 
 # Setting new default command so fzf finds hidden files
 # this didn't work...
@@ -155,3 +159,19 @@ unsetopt BEEP
 
 # install php for a tutorial, may remove
 export PATH="$PATH:/usr/local/opt/php@8.1/bin"
+
+# use brew vim, has python support
+export PATH="/usr/local/Cellar/vim/8.2.4150/bin:$PATH"
+
+# add my scripts to path
+export PATH="$PATH:~/my_scripts"
+
+# add my tmux scripts to path
+export PATH="$PATH:~/tmux_scripts"
+
+# twilio-cli stuff
+eval 
+TWILIO_AC_ZSH_SETUP_PATH=/Users/eclipse_sd/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH; # twilio autocomplete setup
+
+# set .pgpass so can find with psql and script
+export PGPASSFILE='/Users/eclipse_sd/.pgpass'

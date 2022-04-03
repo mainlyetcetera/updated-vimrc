@@ -1,3 +1,7 @@
+" changes I need to save for deployment
+" share-service, both
+" jf{%kw%^"syi":.,$sÄkbÄkbÄkbÄkbÄkbs/s/schema/g/sitef:w"nyi":.,$s/n/name/g
+
 " start to my sets
 set belloff=all
 set shiftwidth=2
@@ -40,6 +44,9 @@ endif
 " insert-mode remaps
 inoremap <backspace> <nop>
 inoremap <leader>kj <Esc>
+inoremap <C-s> <Esc>:w<CR>l
+" move line all the way to left
+" inoremap <leader>mb <Esc>0dw
 
 " normal-mode remaps
 nnoremap <leader>h :wincmd h<CR>
@@ -54,11 +61,14 @@ nnoremap <leader>m :MaximizerToggle!<CR>
 nnoremap <leader>am :term<CR>
 nnoremap <leader>ev :e ~/.vimrc<CR>
 nnoremap <leader>iv :e ~/.config/nvim/init.vim<CR>
+nnoremap <leader>nb :e ~/Desktop/onboard-help/README.md<CR>
 nnoremap <leader>ne :NERDTreeToggle <CR>
 " I want to use the same keybinding to close the terminal, need fn for that?
 nnoremap <leader>7 <C-^><CR>
 nnoremap <Space> <nop>
 nnoremap <leader><ENTER> i <Esc>r<ENTER>k<CR>
+nnoremap <leader>sn :set relativenumber!<CR>
+nnoremap Q q
 
 if has('nvim')
   nnoremap <leader>sv :so ~/.config/nvim/init.vim<CR>
@@ -93,8 +103,9 @@ nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap gs <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <C-k> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <C-j> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <C-k> <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <C-j> <cmd>lua vim.diagnostic.goto_next()<CR>
+nnoremap <Leader>qfs <cmd>lua vim.diagnostic.set_qflist()<CR>
 
 " undotree
 nnoremap <Leader>u :UndotreeToggle<CR>
@@ -108,6 +119,9 @@ nnoremap <leader>th :diffget //2<CR>
 nnoremap <leader>ts :G<CR>
 nnoremap <leader>tc :Git commit<CR>
 nnoremap <leader>tk :Git checkout<CR>
+nnoremap <leader>tw :Gwrite<CR>
+nnoremap <leader>tP :Git -p push<CR>
+nnoremap <leader>tp :Git -p pull<CR>
 
 " command-mode remaps
 cnoremap <leader>kj <Esc><CR>
@@ -223,6 +237,10 @@ nnoremap <leader>qfn :cnewer<CR>
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
+" keymaps navigate args list
+nnoremap <leader>ap :prev<CR>
+nnoremap <leader>an :next<CR>
+
 " ack.vim --- {{{
 
 " Use ripgrep for searching ‚ö°Ô∏è
@@ -230,7 +248,7 @@ nnoremap <silent> ]q :cnext<CR>
 " --vimgrep -> Needed to parse the rg response properly for ack.vim
 " --type-not sql -> Avoid huge sql file dumps as it slows down the search
 " --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
-let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+let g:ackprg = 'rg --vimgrep'
 
 " Auto close the Quickfix list after pressing '<enter>' on a list item
 let g:ack_autoclose = 1
