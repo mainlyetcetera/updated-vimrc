@@ -23,6 +23,8 @@ set nowrap
 set nohlsearch
 set hidden
 set wildignore=*/node_modules/*
+set formatoptions-=t
+set formatoptions-=o
 
 " sets not using right now
 "
@@ -175,6 +177,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'https://tpope.io/vim/surround.git'
 Plug 'https://github.com/preservim/nerdtree.git'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'morhetz/gruvbox'
@@ -183,6 +186,7 @@ Plug 'mbbill/undotree'
 Plug 'mileszs/ack.vim'
 Plug 'puremourning/vimspector'
 Plug 'szw/vim-maximizer'
+Plug 'https://github.com/tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 
