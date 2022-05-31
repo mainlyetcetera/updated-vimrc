@@ -2,6 +2,51 @@
 " share-service, both
 " jf{%kw%^"syi":.,$s€kb€kb€kb€kb€kbs/s/schema/g/sitef:w"nyi":.,$s/n/name/g
 
+" plugin section for now
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'https://tpope.io/vim/surround.git'
+Plug 'https://tpope.io/vim/repeat.git'
+Plug 'https://github.com/preservim/nerdtree.git'
+Plug 'stsewd/fzf-checkout.vim'
+Plug 'morhetz/gruvbox'
+" Plug 'git@github.com:ycm-core/YouCompleteMe.git'
+Plug 'mbbill/undotree'
+Plug 'mileszs/ack.vim'
+Plug 'puremourning/vimspector'
+Plug 'szw/vim-maximizer'
+Plug 'https://github.com/tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'mattn/emmet-vim'
+
+if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+
+  " For vsnip users.
+  " I'm not sure what vsnip is except that it provides code snippets
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
+endif
+
+" vue support
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+
+" Plug 'wakatime/vim-wakatime'
+call plug#end()
+
+set background=dark
+colorscheme gruvbox
+
 " start to my sets
 set belloff=all
 set shiftwidth=2
@@ -15,7 +60,6 @@ set noswapfile
 set incsearch
 set scrolloff=6
 set completeopt=menuone,preview,noinsert,noselect
-set signcolumn=yes
 set colorcolumn=80
 set signcolumn=yes
 set guifont=Monaco:h10
@@ -29,7 +73,7 @@ set formatoptions-=o
 " sets not using right now
 "
 " coloring for parens and 80-mark line
-hi ColorColumn ctermbg=lightgrey guibg=lightgrey
+hi ColorColumn ctermbg=darkgrey guibg=darkgrey
 hi MatchParen cterm=bold ctermbg=none ctermfg=green
 
 " lets
@@ -46,6 +90,7 @@ endif
 " insert-mode remaps
 inoremap <backspace> <nop>
 inoremap <leader>kj <Esc>
+inoremap <leader>en <Esc>
 inoremap <C-s> <Esc>:w<CR>l
 " move line all the way to left
 " inoremap <leader>mb <Esc>0dw
@@ -71,6 +116,9 @@ nnoremap <Space> <nop>
 nnoremap <leader><ENTER> i <Esc>r<ENTER>k<CR>
 nnoremap <leader>sn :set relativenumber!<CR>
 nnoremap Q q
+
+" this sets up the prompt for Emmet to put in html with emmet syntax
+nnoremap <leader>em :Emmet 
 
 if has('nvim')
   nnoremap <leader>sv :so ~/.config/nvim/init.vim<CR>
@@ -127,6 +175,7 @@ nnoremap <leader>tp :Git -p pull<CR>
 
 " command-mode remaps
 cnoremap <leader>kj <Esc><CR>
+cnoremap W w
 
 " visual-mode remaps
 vnoremap <leader>kj <Esc><CR>
@@ -173,53 +222,9 @@ endif
 
 " \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-" plugin section for now
-call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'https://tpope.io/vim/surround.git'
-Plug 'https://github.com/preservim/nerdtree.git'
-Plug 'stsewd/fzf-checkout.vim'
-Plug 'morhetz/gruvbox'
-" Plug 'git@github.com:ycm-core/YouCompleteMe.git'
-Plug 'mbbill/undotree'
-Plug 'mileszs/ack.vim'
-Plug 'puremourning/vimspector'
-Plug 'szw/vim-maximizer'
-Plug 'https://github.com/tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
-
-if has('nvim')
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-
-  " For vsnip users.
-  " I'm not sure what vsnip is except that it provides code snippets
-  Plug 'hrsh7th/cmp-vsnip'
-  Plug 'hrsh7th/vim-vsnip'
-endif
-
-" vue support
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" post install (yarn install | npm install) then load plugin only for editing supported files
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-
-" Plug 'wakatime/vim-wakatime'
-call plug#end()
-
 " fzf settings still understanding
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } " let $FZF_DEFAULT_OPTS
 " let $FZF_DEFAULT_OPTS='--reverse'
-
-" gruvbox settings
-colorscheme gruvbox
-set background=dark
 
 " transparent background
 hi! Normal guibg=NONE ctermbg=NONE

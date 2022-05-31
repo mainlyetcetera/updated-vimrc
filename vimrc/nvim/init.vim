@@ -3,13 +3,18 @@ set inccommand=nosplit
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=$runtimepath
 
+source ~/.vimrc
+
 " lsp keymappings
 " vim.api.nvim_buf_set_keymap(0, 'n', '<silent>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true}) 
 " vim.api.nvim_buf_set_keymap(0, 'n', '<space>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true})
 " vim.api.nvim_buf_set_keymap(0, 'n', '<C-n>', '<cmd>lua vim.lsp.buf.goto_prev()<CR>', {noremap = true})
 " vim.api.nvim_buf_set_keymap(0, 'n', '<C-p>', '<cmd>lua vim.lsp.buf.goto_next()<CR>', {noremap = true})
 
-source ~/.vimrc
+" " changing color of errors in lsp to not red
+" hi LspReferenceWrite ctermbg=237 guibg=#00ffff
+" hi LspReferenceText ctermbg=237 guibg=#00ffff
+" hi LspReferenceRead ctermbg=237 guibg=#00ffff
 
 " let g:LanguageClient_serverCommands = {
       " \ 'vue': ['vls']
@@ -21,10 +26,20 @@ lua << EOF
 -- require'lspconfig'.vuels.setup {}
 
 -- ts
-require('lspconfig').tsserver.setup {}
+require'lspconfig'.tsserver.setup {}
 
 -- python
 require'lspconfig'.pyright.setup {}
+
+-- go
+require'lspconfig'.gopls.setup {
+  on_attach = function()
+    print("i be here...")
+    vim.keymap.set("n", "J", vim.lsp.buf.hover, {buffer=0})
+    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, {buffer=0})
+    -- ctrl-t jump back on tag list 
+  end
+}
 
 -- setting up auto complete
 vim.lsp.set_log_level('debug')
@@ -47,7 +62,16 @@ local custom_lsp_attach = function(client)
 
   -- For plugins with an `on_attach` callback, call them here. For example:
   -- require('completion').on_attach()
+
 end
+
+-- stopping errors from being red
+
+vim.highlight.create("DiagnosticError", { 
+  guifg = "Cyan",
+  ctermfg = "Cyan",
+  gui= "bold"
+}, false)
 
 on_attach = custom_lsp_attach
 
@@ -112,8 +136,13 @@ local cmp = require'cmp'
   -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+  -- adding this line for html support with lsp
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   require('lspconfig')['tsserver'].setup {
+    capabilities = capabilities
+  }
+  require('lspconfig')['html'].setup {
     capabilities = capabilities
   }
   -- require('lspconfig')['vuels'].setup {
@@ -122,5 +151,5 @@ local cmp = require'cmp'
   require('lspconfig')['pyright'].setup {
     capabilities = capabilities
   }
-EOF
 
+EOF
