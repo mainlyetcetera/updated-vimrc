@@ -1,7 +1,3 @@
-" changes I need to save for deployment
-" share-service, both
-" jf{%kw%^"syi":.,$s€kb€kb€kb€kb€kbs/s/schema/g/sitef:w"nyi":.,$s/n/name/g
-
 " plugin section for now
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -116,6 +112,9 @@ nnoremap <Space> <nop>
 nnoremap <leader><ENTER> i <Esc>r<ENTER>k<CR>
 nnoremap <leader>sn :set relativenumber!<CR>
 nnoremap Q q
+nnoremap <leader>ddp dap"+p
+nnoremap ygy "+yy
+nnoremap ygf gg0"+yG
 
 " this sets up the prompt for Emmet to put in html with emmet syntax
 nnoremap <leader>em :Emmet 

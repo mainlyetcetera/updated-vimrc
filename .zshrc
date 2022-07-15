@@ -1,13 +1,9 @@
-# add python 3.7 to PATH
+
 # export PATH=~/Library/Python/3.7/bin:$PATH
 export PATH=/Users/eclipse_sd/Library/Python/3.8/bin:$PATH
 
 # aliases
 alias python="python3"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -133,18 +129,24 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 # binding space-k-j to esc in insert mode on command line
+bindkey -M viins ' en' vi-cmd-mode
 bindkey -M viins ' kj' vi-cmd-mode
 
 # binding space-j-k to esc in insert mode on command line
-bindkey -M viins ' jk' vi-cmd-mode
+# bindkey -M viins ' jk' vi-cmd-mode
 
 # aliases...again
-# alias vim="nvim"
+alias vim="nvim"
 alias blurgs="jobs"
 alias lg="lazygit"
 alias cn="~/my_scripts/connect.sh"
 alias cdb="~/my_scripts/db_connect.sh"
 alias ta="~/tmux_scripts/t_admin.sh"
+alias pswd="cat ~/mfa_pass.txt | pbcopy"
+alias ebhlth="~/my_scripts/check_aws_eb_env_health.sh"
+alias note="~/my_scripts/notes.sh"
+alias moby="docker run --rm -it docker/doodle:dockercon2022"
+alias tree="tree -I node_modules"
 
 # Setting new default command so fzf finds hidden files
 # this didn't work...
@@ -175,3 +177,23 @@ TWILIO_AC_ZSH_SETUP_PATH=/Users/eclipse_sd/.twilio-cli/autocomplete/zsh_setup &&
 
 # set .pgpass so can find with psql and script
 export PGPASSFILE='/Users/eclipse_sd/.pgpass'
+
+# set path for ngrok
+export PATH="$PATH:/Users/eclipse_sd/Downloads/ngrok_container"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# luajit-openresty is keg-only, which means it was not symlinked into /usr/local,
+# because it conflicts with the LuaJIT formula.
+
+# If you need to have luajit-openresty first in your PATH, run:
+#   echo 'export PATH="/usr/local/opt/luajit-openresty/bin:$PATH"' >> ~/.zshrc
+
+# For compilers to find luajit-openresty you may need to set:
+#   export LDFLAGS="-L/usr/local/opt/luajit-openresty/lib"
+#   export CPPFLAGS="-I/usr/local/opt/luajit-openresty/include"
+
+# For pkg-config to find luajit-openresty you may need to set:
+#   export PKG_CONFIG_PATH="/usr/local/opt/luajit-openresty/lib/pkgconfig"
