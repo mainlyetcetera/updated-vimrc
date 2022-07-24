@@ -29,6 +29,8 @@ if has('nvim')
   " I'm not sure what vsnip is except that it provides code snippets
   Plug 'hrsh7th/cmp-vsnip'
   Plug 'hrsh7th/vim-vsnip'
+
+  Plug 'mfussenegger/nvim-jdtls'
 endif
 
 " vue support
