@@ -88,7 +88,7 @@ endif
 " insert-mode remaps
 inoremap <backspace> <nop>
 inoremap <leader>kj <Esc>
-inoremap <leader>en <Esc>
+inoremap <leader>vc <Esc>
 inoremap <C-s> <Esc>:w<CR>l
 " move line all the way to left
 " inoremap <leader>mb <Esc>0dw
