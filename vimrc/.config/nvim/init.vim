@@ -51,7 +51,10 @@ require'lspconfig'.gopls.setup {
 vim.lsp.set_log_level('DEBUG')
 
 -- getting code actions
-vim.api.nvim_buf_set_keymap(0, 'n','<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
+-- when use set_keymap over buf_set_keymap, sets on initial load
+-- buf_set_keymap waits for another source for me
+-- why?
+vim.api.nvim_set_keymap('n','<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
 vim.api.nvim_buf_set_keymap(0, 'n', '<space><space>bw', ":echo 'wa'<CR>", {noremap = true})
 
 local custom_lsp_attach = function(client)
