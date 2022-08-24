@@ -1,5 +1,7 @@
 set inccommand=nosplit
 
+" vim.highlight.create is deprecated, use vim.api.nvim_set_hl instead. See :h deprecated
+
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=$runtimepath
 
@@ -26,7 +28,11 @@ lua << EOF
 -- require'lspconfig'.vuels.setup {}
 
 -- ts
-require'lspconfig'.tsserver.setup {}
+require'lspconfig'.tsserver.setup {
+  on_attach = function()
+    print("do i?")
+  end
+}
 
 -- python
 require'lspconfig'.pyright.setup {}
@@ -42,7 +48,11 @@ require'lspconfig'.gopls.setup {
 }
 
 -- setting up auto complete
-vim.lsp.set_log_level('debug')
+vim.lsp.set_log_level('DEBUG')
+
+-- getting code actions
+vim.api.nvim_buf_set_keymap(0, 'n','<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
+vim.api.nvim_buf_set_keymap(0, 'n', '<space><space>bw', ":echo 'wa'<CR>", {noremap = true})
 
 local custom_lsp_attach = function(client)
   -- See `:help nvim_buf_set_keymap()` for more information
@@ -67,6 +77,8 @@ end
 
 -- stopping errors from being red
 
+-- vim.api.nvim_set_hl
+-- vim.api.nvim_set_hl("DiagnosticError", { 
 vim.highlight.create("DiagnosticError", { 
   guifg = "Cyan",
   ctermfg = "Cyan",
