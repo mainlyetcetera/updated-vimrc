@@ -1,0 +1,24 @@
+!SESSION 2022-07-09 12:46:12.096 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.15
+java.vendor=Homebrew
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  --version
+Command-line arguments:  --version
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2022-07-09 12:46:13.851
+!MESSAGE class org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin is started
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2022-07-09 12:46:13.991
+!MESSAGE Main thread is waiting
+!SESSION 2022-07-09 12:47:24.287 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.15
+java.vendor=Homebrew
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2022-07-09 12:47:25.388
+!MESSAGE class org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin is started
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2022-07-09 12:47:25.521
+!MESSAGE Main thread is waiting
