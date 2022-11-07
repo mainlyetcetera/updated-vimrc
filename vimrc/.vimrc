@@ -31,10 +31,6 @@ if has('nvim')
   Plug 'hrsh7th/vim-vsnip'
 
   Plug 'mfussenegger/nvim-jdtls'
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'rcarriga/nvim-dap-ui'
-  Plug 'leoluz/nvim-dap-go'
-  Plug 'mxsdev/nvim-dap-vscode-js'
 endif
 
 " vue support
@@ -51,8 +47,7 @@ colorscheme gruvbox
 
 " start to my sets
 set belloff=all
-set shiftwidth=4
-" set shiftwidth=2
+set shiftwidth=2
 set relativenumber
 set numberwidth=5
 set tabstop=1 softtabstop=2
@@ -67,15 +62,11 @@ set colorcolumn=80
 set signcolumn=yes
 set guifont=Monaco:h10
 set nowrap
-" trying something new, turning off highlights manually
-" set nohlsearch
+set nohlsearch
 set hidden
-" set wildignore=*/node_modules/*
+set wildignore=*/node_modules/*
 set formatoptions-=t
 set formatoptions-=o
-set hlsearch
-set ignorecase
-set smartcase
 
 " sets not using right now
 "
@@ -95,7 +86,7 @@ if executable('rg')
 endif
 
 " insert-mode remaps
-inoremap <BS> <ESC>:nohlsearch<CR>li
+inoremap <backspace> <nop>
 inoremap <leader>kj <Esc>
 inoremap <leader>vc <Esc>
 inoremap <C-s> <Esc>:w<CR>l
@@ -103,32 +94,26 @@ inoremap <C-s> <Esc>:w<CR>l
 " inoremap <leader>mb <Esc>0dw
 
 " normal-mode remaps
-nnoremap / /\v
-nnoremap <BS> :nohlsearch<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
-nnoremap <Leader>= <C-W>=
-nnoremap <Leader>0 <C-W>_
 nnoremap <Leader>+ :vertical resize +5<CR> 
 nnoremap <Leader>- :vertical resize -5<CR> 
 nnoremap <leader>m :MaximizerToggle!<CR>
-" nnoremap <leader>am :term<CR>
-nnoremap <leader>am :vsp<CR><C-W>l:term<CR>i
+nnoremap <leader>am :term<CR>
 nnoremap <leader>ev :e ~/.vimrc<CR>
 nnoremap <leader>iv :e ~/.config/nvim/init.vim<CR>
 nnoremap <leader>nb :e ~/Desktop/onboard-help/README.md<CR>
 nnoremap <leader>ne :NERDTreeToggle <CR>
-nnoremap <leader>nf :NERDTreeFind <CR>
 " I want to use the same keybinding to close the terminal, need fn for that?
 nnoremap <leader>7 <C-^><CR>
 nnoremap <Space> <nop>
 nnoremap <leader><ENTER> i <Esc>r<ENTER>k<CR>
 nnoremap <leader>sn :set relativenumber!<CR>
-" nnoremap Q q
+nnoremap Q q
 nnoremap <leader>ddp dap"+p
 nnoremap ygy "+yy
 nnoremap ygf gg0"+yG
@@ -142,67 +127,27 @@ else
   nnoremap <leader>sv :so ~/.vimrc<CR>
 endif
 
-" vimspector v nvim-dap
-if has('nvim')
+" vimspector setup
+let g:vimspector_enable_mappings = 'HUMAN'
+" packadd! vimspector
 
-  " nnoremap <Leader>de :call vimspector#Reset()<CR>
-  nnoremap <Leader>dc :lua require'dap'.continue()<CR>
-  nmap <Leader>dj :lua require'dap'.step_over()<CR>
-  nmap <Leader>dl :lua require'dap'.step_into()<CR>
-  nmap <Leader>dh :lua require'dap'.step_out()<CR>
+nnoremap <Leader>dd :call vimspector#Launch()<CR>
+nnoremap <Leader>de :call vimspector#Reset()<CR>
+nnoremap <Leader>dc :call vimspector#Continue()<CR>
 
-  " reverse must be supported by adapter
-  nmap <Leader>dsb :lua require'dap'.step_back()<CR>
-  nmap <Leader>drc :lua require'dap'.reverse_continue()<CR>
+nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
 
-  " these do not step? ...
-  nmap <Leader>dgh :lua require'dap'.up()<CR>
-  nmap <Leader>dgj :lua require'dap'.down()<CR>
-  nmap <Leader>dgt :lua require'dap'.goto_()<CR>
-  nmap <Leader>drt :lua require'dap'.run_to_cursor()<CR>
-  nmap <Leader>dor :lua require'dap'.repl.open()<CR>
+nmap <Leader>dk <Plug>VimspectorRestart
+nmap <Leader>dh <Plug>VimspectorStepOut
+nmap <Leader>dl <Plug>VimspectorStepInto
+nmap <Leader>dj <Plug>VimspectorStepOver
 
-  " :lua require'dap'.set_log_level('TRACE')<CR>
-
-  nnoremap <Leader>db :lua require'dap'.toggle_breakpoint()<CR>
-  nnoremap <Leader>dcb :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint Condition: '))<CR>
-  nnoremap <Leader>dlm :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-
-  " for later
-  " nnoremap <Leader>dlb :lua require'dap'.set_exception_breakpoints({filters}, {exceptionOptions})
-  " nnoremap <Leader>dlb :lua
-  " require'dap'.set_exception_breakpoints({\"raised\", \"uncaught\"})
-
-  nnoremap <Leader>drl :lua require'dap'.run_last()<CR>
-  nnoremap <Leader>ddc :lua require'dap'.disconnect()<CR>
-  nnoremap <Leader>dlb :lua require'dap'.list_breakpoints()<CR>
-  nnoremap <Leader>dT :lua require'dap'.clear_breakpoints()<CR>
-
-else
-
-  " vimspector setup
-  let g:vimspector_enable_mappings = 'HUMAN'
-  " packadd! vimspector
-
-  nnoremap <Leader>dd :call vimspector#Launch()<CR>
-  nnoremap <Leader>de :call vimspector#Reset()<CR>
-  nnoremap <Leader>dc :call vimspector#Continue()<CR>
-
-  nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
-  nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
-
-  nmap <Leader>dk <Plug>VimspectorRestart
-  nmap <Leader>dh <Plug>VimspectorStepOut
-  nmap <Leader>dl <Plug>VimspectorStepInto
-  nmap <Leader>dj <Plug>VimspectorStepOver
-
-  nmap <Leader>di <Plug>VimspectorBalloonEval
-  nmap <Leader>dx <Plug>VimspectorEval
-  nmap <Leader>dw <Plug>VimspectorWatch
-  nmap <Leader>do <Plug>VimspectorShowOutput
-  " nmap <Leader>dr <Plug>VimspectorRestart
-
-endif
+nmap <Leader>di <Plug>VimspectorBalloonEval
+nmap <Leader>dx <Plug>VimspectorEval
+nmap <Leader>dw <Plug>VimspectorWatch
+nmap <Leader>do <Plug>VimspectorShowOutput
+" nmap <Leader>dr <Plug>VimspectorRestart
 
 " current lsp setup, in VimL
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
@@ -220,15 +165,8 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 " Fugitive
 " merge-conflict remaps
 " go into merge-conflict window with dv
-" writing this here, related
-
-" these are native to vim
-" using :diffget shortcuts
-" dp keep change in current buffer 'put change'
-" do keep change in other buffer 'get change'
-" they accept a count 
-nnoremap <leader>tl :diffget //3<CR> ]c
-nnoremap <leader>th :diffget //2<CR> ]c
+nnoremap <leader>tl :diffget //3<CR>
+nnoremap <leader>th :diffget //2<CR>
 nnoremap <leader>ts :G<CR>
 nnoremap <leader>tc :Git commit<CR>
 nnoremap <leader>tk :Git checkout<CR>
@@ -237,14 +175,15 @@ nnoremap <leader>tP :Git -p push<CR>
 nnoremap <leader>tp :Git -p pull<CR>
 
 " command-mode remaps
-cnoremap <leader>vc <Esc><BS>
+cnoremap <leader>kj <Esc><CR>
+cnoremap W w
 
 " visual-mode remaps
-vnoremap <leader>vc <Esc><CR>
+vnoremap <leader>kj <Esc><CR>
 
 " terminal-mode remaps, local is <C-W>N or <C-\><C-n>, using first here
 " just puts you into mode where vim commands recognized, still need :q!
-tnoremap <leader>vc <C-\><C-n>
+tnoremap <leader>kj <C-W>N
 tnoremap <leader>am <C-\><C-n>:q!<Enter>
 
 " for YCM Completer
@@ -319,7 +258,7 @@ nnoremap <leader>an :next<CR>
 " --vimgrep -> Needed to parse the rg response properly for ack.vim
 " --type-not sql -> Avoid huge sql file dumps as it slows down the search
 " --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
-let g:ackprg = 'rg --vimgrep --smart-case'
+let g:ackprg = 'rg --vimgrep'
 
 " Auto close the Quickfix list after pressing '<enter>' on a list item
 let g:ack_autoclose = 1
