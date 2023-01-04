@@ -10,7 +10,7 @@ Plug 'morhetz/gruvbox'
 " Plug 'git@github.com:ycm-core/YouCompleteMe.git'
 Plug 'mbbill/undotree'
 Plug 'mileszs/ack.vim'
-Plug 'puremourning/vimspector'
+" Plug 'puremourning/vimspector'
 Plug 'szw/vim-maximizer'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -19,6 +19,7 @@ Plug 'mattn/emmet-vim'
 
 if has('nvim')
   Plug 'neovim/nvim-lspconfig'
+  Plug 'lspcontainers/lspcontainers.nvim'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
@@ -51,7 +52,7 @@ colorscheme gruvbox
 
 " start to my sets
 set belloff=all
-set shiftwidth=4
+set shiftwidth=2
 " set shiftwidth=2
 set relativenumber
 set numberwidth=5
@@ -184,23 +185,23 @@ else
   let g:vimspector_enable_mappings = 'HUMAN'
   " packadd! vimspector
 
-  nnoremap <Leader>dd :call vimspector#Launch()<CR>
-  nnoremap <Leader>de :call vimspector#Reset()<CR>
-  nnoremap <Leader>dc :call vimspector#Continue()<CR>
+  " nnoremap <Leader>dd :call vimspector#Launch()<CR>
+  " nnoremap <Leader>de :call vimspector#Reset()<CR>
+  " nnoremap <Leader>dc :call vimspector#Continue()<CR>
 
-  nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
-  nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
+  " nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
+  " nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
 
-  nmap <Leader>dk <Plug>VimspectorRestart
-  nmap <Leader>dh <Plug>VimspectorStepOut
-  nmap <Leader>dl <Plug>VimspectorStepInto
-  nmap <Leader>dj <Plug>VimspectorStepOver
+  " nmap <Leader>dk <Plug>VimspectorRestart
+  " nmap <Leader>dh <Plug>VimspectorStepOut
+  " nmap <Leader>dl <Plug>VimspectorStepInto
+  " nmap <Leader>dj <Plug>VimspectorStepOver
 
-  nmap <Leader>di <Plug>VimspectorBalloonEval
-  nmap <Leader>dx <Plug>VimspectorEval
-  nmap <Leader>dw <Plug>VimspectorWatch
-  nmap <Leader>do <Plug>VimspectorShowOutput
-  " nmap <Leader>dr <Plug>VimspectorRestart
+  " nmap <Leader>di <Plug>VimspectorBalloonEval
+  " nmap <Leader>dx <Plug>VimspectorEval
+  " nmap <Leader>dw <Plug>VimspectorWatch
+  " nmap <Leader>do <Plug>VimspectorShowOutput
+  " " nmap <Leader>dr <Plug>VimspectorRestart
 
 endif
 

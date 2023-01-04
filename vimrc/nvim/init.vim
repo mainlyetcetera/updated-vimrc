@@ -114,6 +114,43 @@ require'lspconfig'.gopls.setup {
   end
 }
 
+require'lspconfig'.terraformls.setup {
+  cmd = require'lspcontainers'.command('terraformls'),
+  filetypes = { "hcl", "tf", "terraform", "tfvars" },
+  on_attach = function()
+    print("launching tf ls")
+
+    local autocmd_format = function(async, filter)
+      vim.api.nvim_clear_autocmds { buffer = 0, group = augroup_format }
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = 0,
+        callback = function()
+          vim.lsp.buf.format { async = async, filter = filter }
+        end,
+      })
+    end
+
+    autocmd_format(false)
+
+  end
+}
+
+require'lspconfig'.yamlls.setup {
+  before_init = function(params)
+    params.processId = vim.NIL
+  end,
+  cmd = require'lspcontainers'.command('yamlls'),
+  root_dir = require'lspconfig/util'.root_pattern(".git", vim.fn.getcwd()),
+}
+
+require'lspconfig'.dockerls.setup {
+  before_init = function(params)
+    params.processId = vim.NIL
+  end,
+  cmd = require'lspcontainers'.command('dockerls'),
+  root_dir = require'lspconfig/util'.root_pattern(".git", vim.fn.getcwd()),
+}
+
 -- setting up auto complete
 vim.lsp.set_log_level('DEBUG')
 
@@ -123,6 +160,8 @@ vim.lsp.set_log_level('DEBUG')
 -- why?
 vim.api.nvim_set_keymap('n','<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
 vim.api.nvim_buf_set_keymap(0, 'n', '<space><space>bw', ":echo 'wa'<CR>", {noremap = true})
+
+vim.api.nvim_set_keymap('n','<space>ms', ':s/\\v', {noremap = true})
 
 local custom_lsp_attach = function(client)
   -- See `:help nvim_buf_set_keymap()` for more information
