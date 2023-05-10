@@ -36,6 +36,8 @@ if has('nvim')
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'leoluz/nvim-dap-go'
   Plug 'mxsdev/nvim-dap-vscode-js'
+  Plug 'theHamsta/nvim-dap-virtual-text'
+  " Plug 'microsoft/vscode-js-debug', { 'opt': 'true', 'run': 'npm install --legacy-peer-deps && npm run compile' }
 endif
 
 " vue support
@@ -52,19 +54,20 @@ colorscheme gruvbox
 
 " start to my sets
 set belloff=all
-set shiftwidth=2
 " set shiftwidth=2
+set shiftwidth=4
 set relativenumber
 set numberwidth=5
-set tabstop=1 softtabstop=2
-set expandtab
+set tabstop=4 softtabstop=4
+" set expandtab
+set noexpandtab
 set smartindent
 set nu
 set noswapfile
 set incsearch
 set scrolloff=6
 set completeopt=menuone,preview,noinsert,noselect
-set colorcolumn=80
+" set colorcolumn=80
 set signcolumn=yes
 set guifont=Monaco:h10
 set nowrap
@@ -77,6 +80,11 @@ set formatoptions-=o
 set hlsearch
 set ignorecase
 set smartcase
+set noeol
+set nofixeol
+
+" this is adjusting the comment string for sql files, default was incorrect
+autocmd FileType sql setlocal commentstring=\-\-\ %s
 
 " sets not using right now
 "
@@ -133,6 +141,10 @@ nnoremap <leader>sn :set relativenumber!<CR>
 nnoremap <leader>ddp dap"+p
 nnoremap ygy "+yy
 nnoremap ygf gg0"+yG
+nnoremap ygf gg0"+yG
+" sometimes you gotta turn off the 80 column bar for the anime girl...
+nnoremap <leader>ccy :set colorcolumn=80<CR>
+nnoremap <leader>ccn :set colorcolumn=""<CR>
 
 " this sets up the prompt for Emmet to put in html with emmet syntax
 nnoremap <leader>em :Emmet 
@@ -161,7 +173,8 @@ if has('nvim')
   nmap <Leader>dgj :lua require'dap'.down()<CR>
   nmap <Leader>dgt :lua require'dap'.goto_()<CR>
   nmap <Leader>drt :lua require'dap'.run_to_cursor()<CR>
-  nmap <Leader>dor :lua require'dap'.repl.open()<CR>
+  nmap <Leader>dor :lua require'dapui'.open()<CR>
+  nmap <Leader>dcr :lua require'dapui'.close()<CR>
 
   " :lua require'dap'.set_log_level('TRACE')<CR>
 
@@ -309,6 +322,7 @@ nnoremap <leader>qfn :cnewer<CR>
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
+" called args list b/c is originally all files passed to vim
 " keymaps navigate args list
 nnoremap <leader>ap :prev<CR>
 nnoremap <leader>an :next<CR>

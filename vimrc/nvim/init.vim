@@ -29,11 +29,25 @@ lua << EOF
 
 require'dap-vscode-js'.setup({
   node_path = "node",
-  debugger_path = "/usr/bin/vscode-js-debug",
+  debugger_path = "/home/chimaera/.config/nvim/daps/vscode-js-debug",
   adapters = {'pwa-node', 'pwa-chrome'}
 })
 
 require'dap'.set_log_level('DEBUG')
+
+require'dapui'.setup()
+require'nvim-dap-virtual-text'.setup()
+
+local dap, dapui = require('dap'), require('dapui')
+dap.listeners.after.event_initialized["dapui_config"] = function()
+    dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+    dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+    dapui.close()
+end
 
     -- {
     --   type = "pwa-node",
@@ -54,6 +68,21 @@ for _, language in ipairs({ 'typescript', 'javascript', 'typescriptreact', 'java
       program = "${file}",
       cwd = "${workspaceFolder}",
       trace = "true"
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach",
+      processId = require'dap.utils'.pick_process,
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-chrome",
+      request = "attach",
+      name = "Attach to Chrome",
+      processId = require'dap.utils'.pick_process,
+      cwd = "${workspaceFolder}",
+      port = 9229
     },
     {
       type = "pwa-node",
@@ -98,6 +127,21 @@ end
 require'lspconfig'.tsserver.setup {
   on_attach = function()
     print("do i?")
+
+    -- vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, {buffer=0})
+
+    local autocmd_format = function(async, filter)
+      vim.api.nvim_clear_autocmds { buffer = 0, group = augroup_format }
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = 0,
+        callback = function()
+          vim.lsp.buf.format { async = async, filter = filter }
+        end,
+      })
+    end
+
+    autocmd_format(false)
+
   end
 }
 
@@ -111,6 +155,23 @@ require'lspconfig'.gopls.setup {
     vim.keymap.set("n", "J", vim.lsp.buf.hover, {buffer=0})
     vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, {buffer=0})
     -- ctrl-t jump back on tag list 
+
+    -- local autocmd_format = function(async, filter)
+    --   vim.api.nvim_clear_autocmds { buffer = 0, group = augroup_format }
+    --   vim.api.nvim_create_autocmd("BufWritePre", {
+    --     buffer = 0,
+    --     callback = function()
+    --       vim.lsp.buf.format { 
+    --           async = async, 
+    --           filter = filter, 
+    --           tabSize = 4
+    --       }
+    --     end,
+    --   })
+    -- end
+
+    -- autocmd_format(false)
+
   end
 }
 
@@ -158,10 +219,12 @@ vim.lsp.set_log_level('DEBUG')
 -- when use set_keymap over buf_set_keymap, sets on initial load
 -- buf_set_keymap waits for another source for me
 -- why?
-vim.api.nvim_set_keymap('n','<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
+-- vim.api.nvim_set_keymap('n', '<space>vca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
 vim.api.nvim_buf_set_keymap(0, 'n', '<space><space>bw', ":echo 'wa'<CR>", {noremap = true})
 
-vim.api.nvim_set_keymap('n','<space>ms', ':s/\\v', {noremap = true})
+-- very magic substitute
+vim.api.nvim_set_keymap('n','<space>vs', ':%s/\\v', {noremap = true})
 
 local custom_lsp_attach = function(client)
   -- See `:help nvim_buf_set_keymap()` for more information
